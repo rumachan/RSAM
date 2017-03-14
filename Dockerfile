@@ -41,3 +41,4 @@ VOLUME ["/home/volcano/sds"]
 VOLUME ["/home/volcano/workdir"]
 COPY *.py /home/volcano/scripts/
 COPY *.csh /home/volcano/scripts/
+COPY *.sh /home/volcano/scripts/
