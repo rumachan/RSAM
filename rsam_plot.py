@@ -75,8 +75,8 @@ st.merge(fill_value='interpolate')
 tr = st[0]
 
 # plot
-start = date2num(tr.stats.starttime)  # as decimal years
-end = date2num(tr.stats.endtime)
+start = date2num(tr.stats.starttime.datetime)  # as decimal years
+end = date2num(tr.stats.endtime.datetime)
 
 # time values
 #t = np.arange(start, end, tr.stats.delta/86400)
