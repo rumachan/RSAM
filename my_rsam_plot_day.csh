@@ -6,30 +6,25 @@ set this_year = `date -u +%Y`
 
 #DRZ.10-EHZ.NZ
 set first_year = 2008
-/home/sherburn/scripts/rsam_plot_day.py DRZ.10-EHZ.NZ /home/sherburn/data1/rsam_data $first_year $this_year /home/sherburn/geonet/my_rsam bp 1 4
-\mv /home/sherburn/geonet/my_rsam/rsam_plot_day.png /home/sherburn/geonet/my_rsam/rsam_plot_day.bp_1.00-4.00.png
-scp /home/sherburn/geonet/my_rsam/rsam_plot_day.bp_1.00-4.00.png volcano@volcano:/var/www/html/volcanoes/ruapehu
+rsam_plot_day.py DRZ.10-EHZ.NZ ./workdir $first_year $this_year ./workdir/my_rsam bp 1 4
+\mv ./workdir/my_rsam/rsam_plot_day.png ./output/DRZ.rsam_plot_day.bp_1.00-4.00.png
 
 #MAVZ.10-HHZ.NZ
 set first_year = 2013
-/home/sherburn/scripts/rsam_plot_day.py MAVZ.10-HHZ.NZ /home/sherburn/data1/rsam_data $first_year $this_year /home/sherburn/geonet/my_rsam bp 1 4
-\mv /home/sherburn/geonet/my_rsam/rsam_plot_day.png /home/sherburn/geonet/my_rsam/rsam_plot2_day.bp_1.00-4.00.png
-scp /home/sherburn/geonet/my_rsam/rsam_plot2_day.bp_1.00-4.00.png volcano@volcano:/var/www/html/volcanoes/ruapehu
+rsam_plot_day.py MAVZ.10-HHZ.NZ ./workdir $first_year $this_year ./workdir/my_rsam bp 1 4
+\mv ./workdir/my_rsam/rsam_plot_day.png ./output/MAVZ.rsam_plot2_day.bp_1.00-4.00.png
 
 #WIZ.10-HHZ.NZ
 set first_year = 2007
-/home/sherburn/scripts/rsam_plot_day.py WIZ.10-HHZ.NZ /home/sherburn/data1/rsam_data $first_year $this_year /home/sherburn/geonet/my_rsam bp 2 5
-\mv /home/sherburn/geonet/my_rsam/rsam_plot_day.png /home/sherburn/geonet/my_rsam/rsam_plot_day.bp_2.00-5.00.png
-scp /home/sherburn/geonet/my_rsam/rsam_plot_day.bp_2.00-5.00.png volcano@volcano:/var/www/html/volcanoes/whiteis
+rsam_plot_day.py WIZ.10-HHZ.NZ ./workdir $first_year $this_year ./workdir/my_rsam bp 2 5
+\mv ./workdir/my_rsam/rsam_plot_day.png ./output/WIZ.rsam_plot_day.bp_2.00-5.00.png
 
 #WSRZ.10-HHZ.NZ
 set first_year = 2013
-/home/sherburn/scripts/rsam_plot_day.py WSRZ.10-HHZ.NZ /home/sherburn/data1/rsam_data $first_year $this_year /home/sherburn/geonet/my_rsam bp 2 5
-\mv /home/sherburn/geonet/my_rsam/rsam_plot_day.png /home/sherburn/geonet/my_rsam/rsam_plot2_day.bp_2.00-5.00.png
-scp /home/sherburn/geonet/my_rsam/rsam_plot2_day.bp_2.00-5.00.png volcano@volcano:/var/www/html/volcanoes/whiteis
+rsam_plot_day.py WSRZ.10-HHZ.NZ ./workdir $first_year $this_year ./workdir/my_rsam bp 2 5
+\mv ./workdir/my_rsam/rsam_plot_day.png ./output/WSRZ.rsam_plot2_day.bp_2.00-5.00.png
 
 #RAR.10-BHZ.IU
 set first_year = 2015
-/home/sherburn/scripts/rsam_plot_day.py RAR.10-BHZ.IU /home/sherburn/data1/rsam_data $first_year $this_year /home/sherburn/geonet/my_rsam bp 1.5 6
-\mv /home/sherburn/geonet/my_rsam/rsam_plot_day.png /home/sherburn/geonet/my_rsam/rsam_plot_day.bp_1.50-6.00.png
-scp /home/sherburn/geonet/my_rsam/rsam_plot_day.bp_1.50-6.00.png volcano@volcano:/var/www/html/volcanoes/rarotonga
+rsam_plot_day.py RAR.10-BHZ.IU ./workdir $first_year $this_year ./workdir/my_rsam bp 1.5 6
+\mv ./workdir/my_rsam/rsam_plot_day.png ./output/RAR.rsam_plot_day.bp_1.50-6.00.png
