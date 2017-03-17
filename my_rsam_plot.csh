@@ -54,4 +54,4 @@ rsam_plot.py RAR.10-BHZ.IU ./workdir $monthdate $date ./workdir/my_rsam bp 1.5 6
 #RAR.10-BHZ.IU
 #last week
 rsam_plot.py RAR.10-BHZ.IU ./workdir $weekdate $date ./workdir/my_rsam bp 1.5 6
-\mv ./workdir/my_rsam/rsam_plot.png ./output/rsam_plot_week.bp_1.50-6.00.png
+\mv ./workdir/my_rsam/rsam_plot.png ./output/RAR.rsam_plot_week.bp_1.50-6.00.png
