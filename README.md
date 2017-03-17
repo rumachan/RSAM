@@ -14,7 +14,7 @@ Then build the docker image:
 cd RSAM
 docker build -t rsam .
 ```
-The resulting docker container has three mount points that have to be mounted
+The resulting docker image has three mount points that have to be mounted
 so the scripts can run:
 
 * `/home/volcano/workdir`: stores output files that need to be persistent between runs
@@ -40,7 +40,7 @@ Afterwards you will only have to start the container to rerun `my_rsam.csh`:
 ```
 docker start my_rsam
 ```
-In the same way you can create containers for the scripts.
+In the same way you can create containers for the other scripts.
 
 
 **Note**: If the SDS archive is mounted using NFS, the NFS mount has to happen before the start of the docker daemon (at least with older versions of docker). In case of a remount of the NFS drive the docker daemon therefore has to be restarted:
