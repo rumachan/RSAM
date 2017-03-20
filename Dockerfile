@@ -9,6 +9,7 @@ RUN apt-get update \
     python-numpy \
     python-scipy \
     wget \
+    vim \
     csh
 
 # Install ObsPy    
