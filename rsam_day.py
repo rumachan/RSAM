@@ -34,67 +34,59 @@ day = np.zeros(1)
 # get data file name and location
 site_dir = str.split(site, '.')[0] + '.' + str.split(site, '.')[2]  # DRZ.CH
 dd = dt.datetime.strptime(date, '%Y%m%d')  # into correct format
-yd = dd.strftime("%Y.%j")
+
+data = []
 y = dd.strftime("%Y")
+starttime = None
+
 if filtype == 'none':
-    file = yd + '.' + site + '.rsam'
+    file = '{:s}.{:>03d}' + '.' + site + '.rsam'
     yfile = y + '.' + site + '.rsam'
 elif (filtype == 'lp') | (filtype == 'hp'):
     strf = '%.2f' % f  # string version with 2 decimal places
-    file = yd + '.' + site + '.' + filtype + '_' + strf + '.rsam'
+    file = '{:s}.{:>03d}' + '.' + site + '.' + filtype + '_' + strf + '.rsam'
     yfile = y + '.' + site + '.' + filtype + '_' + strf + '.rsam'
 elif filtype == 'bp':
     strf1 = '%.2f' % f1  # string version with 2 decimal places
     strf2 = '%.2f' % f2  # string version with 2 decimal places
-    file = yd + '.' + site + '.' + filtype + \
+    file = '{:s}.{:>03d}' + '.' + site + '.' + filtype + \
         '_' + strf1 + '-' + strf2 + '.rsam'
     yfile = y + '.' + site + '.' + filtype + \
         '_' + strf1 + '-' + strf2 + '.rsam'
-rsamfile = os.path.join(rsam_dir, site_dir, file)
+
 yrsamfile = os.path.join(rsam_dir, site_dir, yfile)
 
-# if rsamfile exists calculate day value
-if os.path.isfile(rsamfile):
-    # read input data file
-    st = read(rsamfile)
-    # in case stream has more than one trace
-    st.merge(fill_value='interpolate')
-    tr = st[0]
-    day[0] = tr.data.mean()  # mean value for the day
-else:
-    # file does not exist, assign a value of -1 as day value
-    day[0] = -1
+for j in range(int(dd.strftime("%j")) + 1):
+    rsamfile = os.path.join(rsam_dir, site_dir, file.format(y, j))
 
-if not os.path.isfile(yrsamfile):
-    # start new year file
-    station = tr.stats.station  # DRZ
-    network = tr.stats.network  # CH
-    location = tr.stats.location  # 10
-    channel = tr.stats.channel  # EHZ
-    starttime = tr.stats.starttime  # 2005-10-06T07:21:59.849998Z
-    delta = 86400  # one day interval
-    npts = 1  # single value, mean
-    # write file
-    stats = {'network': network, 'station': station, 'location': location,
-             'channel': channel, 'npts': npts, 'delta': delta,
-             'mseed': {'dataquality': 'D'}, 'starttime': starttime}
-    st = Stream([Trace(data=day, header=stats)])
-    st.write(yrsamfile, format='MSEED', reclen=256)
-else:
-    # append to existing file
-    yr = read(yrsamfile)[0]
-    year = yr.data
-    year = np.append(year, day[0])
-    station = yr.stats.station  # DRZ
-    network = yr.stats.network  # CH
-    location = yr.stats.location  # 10
-    channel = yr.stats.channel  # EHZ
-    starttime = yr.stats.starttime  # 2005-10-06T07:21:59.849998Z
-    delta = 86400  # one day interval
-    npts = len(year)
-    # write file
-    stats = {'network': network, 'station': station, 'location': location,
-             'channel': channel, 'npts': npts, 'delta': delta,
-             'mseed': {'dataquality': 'D'}, 'starttime': starttime}
-    st = Stream([Trace(data=year, header=stats)])
-    st.write(yrsamfile, format='MSEED', reclen=256)
+    # if rsamfile exists calculate day value
+    if os.path.isfile(rsamfile):
+        # read input data file
+        st = read(rsamfile)
+        # in case stream has more than one trace
+        st.merge(fill_value='interpolate')
+        tr = st[0]
+        if starttime is None:
+            starttime = tr.stats.starttime
+        data.append(tr.data.mean())  # mean value for the day
+    else:
+        # file does not exist, assign a value of -1 as day value
+        print "Can't find file %s" % rsamfile
+        data.append(-1)
+
+if os.path.isfile(yrsamfile):
+    os.unlink(yrsamfile)
+# start new year file
+station = tr.stats.station  # DRZ
+network = tr.stats.network  # CH
+location = tr.stats.location  # 10
+channel = tr.stats.channel  # EHZ
+starttime = starttime  # 2005-10-06T07:21:59.849998Z
+delta = 86400  # one day interval
+npts = len(data)  # single value, mean
+# write file
+stats = {'network': network, 'station': station, 'location': location,
+         'channel': channel, 'npts': npts, 'delta': delta,
+         'mseed': {'dataquality': 'D'}, 'starttime': starttime}
+st = Stream([Trace(data=np.array(data), header=stats)])
+st.write(yrsamfile, format='MSEED', reclen=256)
