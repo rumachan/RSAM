@@ -8,11 +8,13 @@ Usage: $0 [Options]
 Options:
     -h              Show this message.
     -d              Pass a different date using the format yyyymmdd
+    -w              Pass a different working directory path.
 EOF
 }
 
 
 yesterday=`date -u -d 'yesterday' +%Y%m%d`
+WORKDIR=./workdir
 
 # Processing command line options
 while [ $# -gt 0 ]
@@ -20,6 +22,7 @@ while [ $# -gt 0 ]
         case "$1" in 
 	    -d) yesterday="$2";shift;;
 	    -h) usage; exit 0;;
+	    -w) WORKDIR="$2";shift;;
 	    -*) usage; exit 1;;
              *) break;;
 	esac
@@ -30,16 +33,16 @@ echo processing date: $yesterday
 
 
 #DRZ.10-EHZ.NZ
-rsam_day.py DRZ.10-EHZ.NZ ./workdir $yesterday ./workdir bp 1 4
+rsam_day.py DRZ.10-EHZ.NZ ${WORKDIR} $yesterday ${WORKDIR} bp 1 4
 
 #MAVZ.10-HHZ.NZ
-rsam_day.py MAVZ.10-HHZ.NZ ./workdir $yesterday ./workdir bp 1 4
+rsam_day.py MAVZ.10-HHZ.NZ ${WORKDIR} $yesterday ${WORKDIR} bp 1 4
 
 #WIZ.10-HHZ.NZ
-rsam_day.py WIZ.10-HHZ.NZ ./workdir $yesterday ./workdir bp 2 5
+rsam_day.py WIZ.10-HHZ.NZ ${WORKDIR} $yesterday ${WORKDIR} bp 2 5
 
 #WSRZ.10-HHZ.NZ
-rsam_day.py WSRZ.10-HHZ.NZ ./workdir $yesterday ./workdir bp 2 5
+rsam_day.py WSRZ.10-HHZ.NZ ${WORKDIR} $yesterday ${WORKDIR} bp 2 5
 
 #RAR.10-BHZ.IU
-rsam_day.py RAR.10-BHZ.IU ./workdir $yesterday ./workdir bp 1.5 6
+rsam_day.py RAR.10-BHZ.IU ${WORKDIR} $yesterday ${WORKDIR} bp 1.5 6
