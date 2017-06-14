@@ -10,7 +10,8 @@ RUN apt-get update \
     python-scipy \
     wget \
     vim \
-    csh
+    csh \
+    openjdk-8-jre
 
 # Install ObsPy    
 RUN REPO=http://deb.obspy.org \
@@ -26,6 +27,9 @@ RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.10.0/tini 
     mv tini /usr/local/bin/tini && \
 chmod +x /usr/local/bin/tini
 
+ADD http://info.geonet.org.nz/download/attachments/8586235/GeoNetCWBQuery-4.2.0-bin.jar /usr/local/bin
+
+RUN chmod a+rx /usr/local/bin/GeoNetCWBQuery-4.2.0-bin.jar
 
 # Configure container startup
 ENTRYPOINT ["tini", "--"]
