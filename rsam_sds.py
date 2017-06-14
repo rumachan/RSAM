@@ -8,6 +8,7 @@
 
 import numpy as np
 import sys
+from subprocess import call
 import os
 from obspy.core import read, Trace, Stream
 import datetime as dt
@@ -15,6 +16,7 @@ import urllib2
 
 #location of geonet response files
 respdir = 'ftp://ftp.geonet.org.nz/seed/RESPONSE'
+cwb_bin = '/usr/local/bin/GeoNetCWBQuery-4.2.0-bin.jar'
 
 #input arguments
 if (len(sys.argv) < 7) | (len(sys.argv) > 9):
@@ -46,10 +48,13 @@ tmp = str.split(stream, '.')[1]	#10-EHZ
 loc = str.split(tmp, '-')[0]	#EHZ
 cmp = str.split(tmp, '-')[1]	#EHZ
 dd = dt.datetime.strptime(date, '%Y%m%d')	#into correct format
-data_dir = os.path.join(base_dir, dd.strftime("%Y"), net, site, cmp) + '.D'	#/geonet/seismic/sds/2013/NZ/WIZ/HHZ.D
+data_dir = '/tmp'
 name = net + '.' + site + '.' + loc + '.' + cmp + '.' + 'D' + '.' + dd.strftime("%Y.%j")	#NZ.WIZ.10.HHZ.D.2013.121
 datafile = os.path.join(data_dir, name)	#/geonet/seismic/sds/2013/NZ/WIZ/HHZ.D/NZ.WIZ.10.HHZ.D.2013.121
-
+#
+nscl = '{0:.<2s}{1:.<5s}{2:.<3s}{3:.<2s}'.format(net,site,cmp,loc)
+cwb_cmd = ['java','-jar',cwb_bin, '-t','ms','-d','1d','-b',dd.strftime("%Y/%m/%d %H:%M:%S"),'-s',nscl,'-o',datafile]
+call(cwb_cmd)
 #check if data file exists
 if not os.path.isfile(datafile):
   sys.stderr.write("datafile %s not found\n" % datafile)
