@@ -10,7 +10,8 @@ import numpy as np
 import sys
 from subprocess import call
 import os
-from obspy.core import read, Trace, Stream
+from obspy.core import read, Trace, Stream, UTCDateTime
+from obspy.clients.fdsn import Client
 import datetime as dt
 import urllib2
 
@@ -51,10 +52,21 @@ dd = dt.datetime.strptime(date, '%Y%m%d')	#into correct format
 data_dir = '/tmp'
 name = net + '.' + site + '.' + loc + '.' + cmp + '.' + 'D' + '.' + dd.strftime("%Y.%j")	#NZ.WIZ.10.HHZ.D.2013.121
 datafile = os.path.join(data_dir, name)	#/geonet/seismic/sds/2013/NZ/WIZ/HHZ.D/NZ.WIZ.10.HHZ.D.2013.121
-#
-nscl = '{0:.<2s}{1:.<5s}{2:.<3s}{3:.<2s}'.format(net,site,cmp,loc)
-cwb_cmd = ['java','-jar',cwb_bin, '-t','ms','-d','1d','-b',dd.strftime("%Y/%m/%d %H:%M:%S"),'-s',nscl,'-o',datafile]
-call(cwb_cmd)
+if net == 'NZ':
+    # For NZ stations use CWB until FDSN is stable
+    nscl = '{0:.<2s}{1:.<5s}{2:.<3s}{3:.<2s}'.format(net,site,cmp,loc)
+    cwb_cmd = ['java','-jar',cwb_bin, '-t','ms','-d','1d','-b',dd.strftime("%Y/%m/%d %H:%M:%S"),'-s',nscl,'-o',datafile]
+    call(cwb_cmd)
+elif net == 'IU':
+    # For IU use IRIS FDSNws
+    c = Client('IRIS')
+    start = UTCDateTime(dd)
+    end = start + 86400
+    s = c.get_waveforms(net,site,loc,cmp,start,end)
+    s.write(datafile,'MSEED')
+else:
+    raise Exception("Don't know how to request data for network {:s}".format(net))
+
 #check if data file exists
 if not os.path.isfile(datafile):
   sys.stderr.write("datafile %s not found\n" % datafile)
