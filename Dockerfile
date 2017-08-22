@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 
 MAINTAINER Yannik Behr <y.behr@gns.cri.nz>
-
+  
 RUN apt-get update \
  && apt-get -y upgrade || true \
  && apt-get -y install \
@@ -12,6 +12,9 @@ RUN apt-get update \
     vim \
     csh \
     openjdk-8-jre
+
+# Init mpl fonts
+RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot"
 
 # Install ObsPy    
 RUN REPO=http://deb.obspy.org \
@@ -27,23 +30,16 @@ RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.10.0/tini 
     mv tini /usr/local/bin/tini && \
 chmod +x /usr/local/bin/tini
 
-ADD http://info.geonet.org.nz/download/attachments/8586235/GeoNetCWBQuery-4.2.0-bin.jar /usr/local/bin
+ADD https://static.geonet.org.nz/cwb/GeoNetCWBQuery-4.2.0-bin.jar /usr/local/bin/GeoNetCWBQuery-4.2.0-bin.jar
 
 RUN chmod a+rx /usr/local/bin/GeoNetCWBQuery-4.2.0-bin.jar
 
 # Configure container startup
 ENTRYPOINT ["tini", "--"]
 
-RUN groupadd -g 1260 -r volcano && useradd -m -s /bin/bash -r -g volcano -u 1260 volcano
-ENV PATH /home/volcano/scripts:$PATH
+VOLUME ["/output"]
+VOLUME ["/workdir"]
+COPY *.py /usr/local/bin/
+COPY *.csh /usr/local/bin/
+COPY *.sh /usr/local/bin/
 
-USER volcano
-WORKDIR /home/volcano
-RUN mkdir /home/volcano/scripts
-
-VOLUME ["/home/volcano/output"]
-VOLUME ["/home/volcano/sds"]
-VOLUME ["/home/volcano/workdir"]
-COPY *.py /home/volcano/scripts/
-COPY *.csh /home/volcano/scripts/
-COPY *.sh /home/volcano/scripts/
