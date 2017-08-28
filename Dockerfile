@@ -11,7 +11,8 @@ RUN apt-get update \
     wget \
     vim \
     csh \
-    openjdk-8-jre
+    openjdk-8-jre \
+ && apt-get clean
 
 # Init mpl fonts
 RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot"
