@@ -19,25 +19,26 @@ import scipy as sp
 import datetime
 
 # start here
-if (len(sys.argv) < 7) | (len(sys.argv) > 9):
+if (len(sys.argv) < 8) | (len(sys.argv) > 10):
     sys.exit(
-        "syntax rsam_plot.py site(DRZ.10-EHZ.CH) rsam_dir date1(yyyymmdd) date2(yyyymmdd) plot_dir filter(lp,hp,bp,none) [f1 f2]")
+        "syntax rsam_plot.py site(DRZ.10-EHZ.CH) rsam_dir date1(yyyymmdd) date2(yyyymmdd) plot_dir basetriglev filter(lp,hp,bp,none) [f1 f2]")
 else:
     site = sys.argv[1]
     rsam_dir = sys.argv[2]
     date1 = sys.argv[3]
     date2 = sys.argv[4]
     plot_dir = sys.argv[5]
+    basetrig = sys.argv[6]
     plot_file = os.path.join(plot_dir, 'rsam_plot.png')
-if len(sys.argv) == 7:  # filter = none
-    filtype = sys.argv[6]
-elif len(sys.argv) == 8:  # filter = lp or hp, one frequency given
-    filtype = sys.argv[6]
-    f = float(sys.argv[7])
-elif len(sys.argv) == 9:  # filter = bp, two frequencies given
-    filtype = sys.argv[6]
-    f1 = float(sys.argv[7])
-    f2 = float(sys.argv[8])
+if len(sys.argv) == 8:  # filter = none
+    filtype = sys.argv[7]
+elif len(sys.argv) == 9:  # filter = lp or hp, one frequency given
+    filtype = sys.argv[7]
+    f = float(sys.argv[8])
+elif len(sys.argv) == 10:  # filter = bp, two frequencies given
+    filtype = sys.argv[7]
+    f1 = float(sys.argv[8])
+    f2 = float(sys.argv[9])
 
 # site dir like DRZ.CH
 site_dir = str.split(site, '.')[0] + '.' + str.split(site, '.')[2]
@@ -86,22 +87,31 @@ t = sp.linspace(start, end, tr.stats.npts)
 #date and time
 now = datetime.datetime.now()
 
+#base trigger level string for title
+if basetrig == '0':
+  basetrig = 'null'
+
 if filtype == 'none':
     title = 'RSAM: ' + site + ', date: ' + date1 + '-' + date2 + \
         ' UT, filter: ' + filtype + ', plotted at: ' + \
-            now.strftime("%Y-%m-%d %H:%M")
+            now.strftime("%Y-%m-%d %H:%M") + ', BTL = ' + basetrig
 elif (filtype == 'lp') | (filtype == 'hp'):
     title = 'RSAM: ' + site + ', date: ' + date1 + '-' + date2 + ' UT, filter: ' + \
         filtype + ' ' + strf + ' Hz' + ', plotted at: ' + \
-            now.strftime("%Y-%m-%d %H:%M")
+            now.strftime("%Y-%m-%d %H:%M") + ', BTL = ' + basetrig
 elif filtype == 'bp':
     title = 'RSAM: ' + site + ', date: ' + date1 + '-' + date2 + ' UT, filter: ' + filtype + \
         ' ' + strf1 + ' - ' + strf2 + ' Hz' + \
-            ', plotted at: ' + now.strftime("%Y-%m-%d %H:%M")
+            ', plotted at: ' + now.strftime("%Y-%m-%d %H:%M") + ', BTL = ' + basetrig
 fig = plt.figure(figsize=(15, 5))
 
 maxy = 1.1 * tr.data.max()
 plt.ylim(ymin=0, ymax=maxy)
+
+#base trigger level on plot, if in scale
+if basetrig != 'null':
+  bt = float(basetrig)
+  plt.axhline(y=bt, linestyle='--', color = 'blue')
 
 plt.title(title)
 plt.ylabel('Ground Velocity (nm/s)')
