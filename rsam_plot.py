@@ -111,10 +111,16 @@ plt.ylim(ymin=0, ymax=maxy)
 #base trigger level on plot, if in scale
 if basetrig != 'null':
   bt = float(basetrig)
-  plt.axhline(y=bt, linestyle='--', color = 'blue')
+  half = bt / 2
+  plt.axhline(y=bt, linestyle='--', color = 'red')
+  #colour areas based on relation to BTL
+  plt.axhspan(0, half, alpha=0.1, color='green') #low rectangle
+  plt.axhspan(half, bt, alpha=0.1, color='orange') #moderate rectangle
+  plt.axhspan(bt, 10000, alpha=0.1, color='red') #high rectangle
+
 
 plt.title(title)
 plt.ylabel('Ground Velocity (nm/s)')
-plt.plot_date(t, tr.data, linestyle='-', marker='None', color='red')
+plt.plot_date(t, tr.data, linestyle='-', marker='None', color='black')
 plt.savefig(plot_file, dpi=200)
 # plt.show()
