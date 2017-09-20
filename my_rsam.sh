@@ -40,6 +40,12 @@ rsam_sds.py DRZ.10-EHZ.NZ ./sds $date ./workdir resp bp 1 4
 #MAVZ.10-HHZ.CH
 rsam_sds.py MAVZ.10-HHZ.NZ ./sds $date ./workdir resp bp 1 4
 
+#TRVZ.10-HHZ.CH
+rsam_sds.py TRVZ.10-HHZ.NZ ./sds $date ./workdir resp bp 1 4
+
+#WHVZ.10-HHZ.CH
+rsam_sds.py WHVZ.10-HHZ.NZ ./sds $date ./workdir resp bp 1 4
+
 #RAR.10-BHZ.IU
 #geonet has no response data for RAR
 rsam_sds.py RAR.10-BHZ.IU ./sds $date ./workdir noresp bp 1.5 6
