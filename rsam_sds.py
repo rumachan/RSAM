@@ -10,6 +10,7 @@ import numpy as np
 import sys
 from subprocess import call
 import os
+import obspy
 from obspy.core import read, Trace, Stream, UTCDateTime
 from obspy.clients.fdsn import Client
 import datetime as dt
@@ -53,10 +54,20 @@ data_dir = '/tmp'
 name = net + '.' + site + '.' + loc + '.' + cmp + '.' + 'D' + '.' + dd.strftime("%Y.%j")	#NZ.WIZ.10.HHZ.D.2013.121
 datafile = os.path.join(data_dir, name)	#/geonet/seismic/sds/2013/NZ/WIZ/HHZ.D/NZ.WIZ.10.HHZ.D.2013.121
 if net == 'NZ':
-    # For NZ stations use CWB until FDSN is stable
-    nscl = '{0:.<2s}{1:.<5s}{2:.<3s}{3:.<2s}'.format(net,site,cmp,loc)
-    cwb_cmd = ['java','-jar',cwb_bin, '-t','ms','-d','1d','-b',dd.strftime("%Y/%m/%d %H:%M:%S"),'-s',nscl,'-o',datafile]
-    call(cwb_cmd)
+    c = Client(base_url='http://beta-service-nrt.geonet.org.nz')
+    start = UTCDateTime(dd)
+    end = start + 86400
+    try:
+        s = c.get_waveforms(net,site,loc,cmp,start,end)
+    except obspy.io.mseed.ObsPyMSEEDFilesizeTooSmallError:
+	sys.stderr.write("No data found for %s\n"%('.'.join((net, site, loc, cmp))))
+	sys.exit(0)
+    s.write(datafile,'MSEED')
+    if False:
+        # For NZ stations use CWB until FDSN is stable
+        NSCL = '{0:.<2s}{1:.<5s}{2:.<3s}{3:.<2s}'.format(net,site,cmp,loc)
+        cwb_cmd = ['java','-jar',cwb_bin, '-t','ms','-d','1d','-b',dd.strftime("%Y/%m/%d %H:%M:%S"),'-s',nscl,'-o',datafile]
+        call(cwb_cmd)
 elif net == 'IU':
     # For IU use IRIS FDSNws
     c = Client('IRIS')
