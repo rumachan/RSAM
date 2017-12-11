@@ -61,10 +61,10 @@ rsam_plot.py TRVZ.10-HHZ.NZ ./workdir $weekdate $date ./workdir/my_rsam 130 bp 1
 rsam_plot.py WHVZ.10-HHZ.NZ ./workdir $monthdate $date ./workdir/my_rsam 140 bp 1 4
 \mv ./workdir/my_rsam/rsam_plot.png ./output/WHVZ.rsam_plot2_month.bp_1.00-4.00.png
 
-#MAVZ.10-HHZ.NZ
+#WHVZ.10-HHZ.NZ
 #last week
-rsam_plot.py MAVZ.10-HHZ.NZ ./workdir $weekdate $date ./workdir/my_rsam 140 bp 1 4
-\mv ./workdir/my_rsam/rsam_plot.png ./output/MAVZ.rsam_plot2_week.bp_1.00-4.00.png
+rsam_plot.py WHVZ.10-HHZ.NZ ./workdir $weekdate $date ./workdir/my_rsam 140 bp 1 4
+\mv ./workdir/my_rsam/rsam_plot.png ./output/WHVZ.rsam_plot2_week.bp_1.00-4.00.png
 
 #RAR.10-BHZ.IU
 #last month
