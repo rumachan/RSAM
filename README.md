@@ -28,7 +28,7 @@ Options:
 
 By default `buildnrun.sh` runs both the build and run stage.
 
-Using the `buildnrun.sh` script also requires two docker volumes to be present: `html`, `rsam`.
+Using the `buildnrun.sh` script also requires two docker volumes to be present: `html` and `rsam`.
 To generate them run:
 
 ```
