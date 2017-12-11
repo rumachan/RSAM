@@ -66,7 +66,10 @@ for year in years:
 
     # process rsamfile
     if os.path.isfile(rsamfile):
-        st += read(rsamfile)
+        tr = read(rsamfile)[0]
+        tr.stats.delta = 86400.0
+        tr.stats.sampling_rate = 1./tr.stats.delta
+        st += tr
 
 # merge to single stream
 st.merge(fill_value='interpolate')
