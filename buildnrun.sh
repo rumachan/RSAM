@@ -16,9 +16,8 @@ Build and run docker image.
 
 Options:
     -h              Show this message.
-    -r              Only rebuild and rerun container without 
-                    rebuilding the images
-    -i              Only rebuild image without running the container.
+    -r              Only run image without rebuilding it.
+    -b              Only rebuild image without running it.
 EOF
 }
 
