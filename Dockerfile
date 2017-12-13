@@ -3,27 +3,37 @@ FROM ubuntu:16.04
 MAINTAINER Yannik Behr <y.behr@gns.cri.nz>
   
 RUN apt-get update \
- && apt-get -y upgrade || true \
  && apt-get -y install \
-    python-matplotlib \
-    python-numpy \
-    python-scipy \
     wget \
-    vim \
+    bzip2 \
     csh \
     openjdk-8-jre \
  && apt-get clean
 
+# Install conda and check the md5 sum provided on the download site
+ENV MINICONDA_VERSION 4.3.30 
+ENV CONDA_DIR /opt/conda
+ENV PATH=$CONDA_DIR/envs/python2/bin:$CONDA_DIR/bin:$PATH
+
+RUN cd /tmp && \
+    wget --quiet https://repo.continuum.io/miniconda/Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh && \
+    echo "0b80a152332a4ce5250f3c09589c7a81 *Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh" | md5sum -c - && \
+    /bin/bash Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
+    rm Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh && \
+    $CONDA_DIR/bin/conda config --system --prepend channels conda-forge && \
+    $CONDA_DIR/bin/conda config --system --set auto_update_conda false && \
+    $CONDA_DIR/bin/conda config --system --set show_channel_urls true && \
+    $CONDA_DIR/bin/conda update --all --quiet --yes && \
+    conda clean -tipsy
+
+RUN conda create --quiet --yes -p $CONDA_DIR/envs/python2 python=2.7 \
+    'matplotlib=1.5*' \
+    'scipy=1.0*' \
+    'obspy=1.1*' && \
+    conda clean -tipsy
+
 # Init mpl fonts
 RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot"
-
-# Install ObsPy    
-RUN REPO=http://deb.obspy.org \
- && echo "deb $REPO xenial main\n" >> /etc/apt/sources.list \
- && wget --quiet -O - https://raw.github.com/obspy/obspy/master/misc/debian/public.key | apt-key add - \
- && apt-get update \ 
- && apt-get -y install python-obspy \
- && apt-get clean
 
 # Install Tini
 RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.10.0/tini && \
