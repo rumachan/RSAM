@@ -24,6 +24,7 @@ Options:
     -h              Show this message.
     -r              Only run image without rebuilding it.
     -b              Only rebuild image without running it.
+    -t              Assign a tag to the docker image (default: latest).
 ```
 
 By default `buildnrun.sh` runs both the build and run stage.
