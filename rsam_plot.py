@@ -122,5 +122,6 @@ if basetrig != 'null':
 plt.title(title)
 plt.ylabel('Ground Velocity (nm/s)')
 plt.plot_date(t, tr.data, linestyle='-', marker='None', color='black')
+plt.xlim(t[0], t[-1])
 plt.savefig(plot_file, dpi=200)
 # plt.show()
