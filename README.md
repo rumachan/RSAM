@@ -1,5 +1,5 @@
 # RSAM
-Calculate filtered RSAM values
+Calculate filtered RSAM values. Codes are intended to run under cron. They are _not_ intercative
 
 ## Docker
 
