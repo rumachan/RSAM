@@ -116,7 +116,7 @@ if basetrig != 'null':
   #colour areas based on relation to BTL
   plt.axhspan(0, half, alpha=0.1, color='green') #low rectangle
   plt.axhspan(half, bt, alpha=0.1, color='orange') #moderate rectangle
-  plt.axhspan(bt, 10000, alpha=0.1, color='red') #high rectangle
+  plt.axhspan(bt, 100000, alpha=0.1, color='red') #high rectangle
 
 
 plt.title(title)
