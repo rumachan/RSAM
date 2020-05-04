@@ -45,10 +45,10 @@ fi
 
 if [ "${BUILDONLY}" == "false" ] ;then
     docker run --rm -v html:/output -v rsam:/workdir yadabe/rsam:$TAG my_rsam.sh
-    docker run --rm -v html:/output -v rsam:/workdir yadabe/rsam:$TAG my_rsam_plot.csh
-    docker run --rm -v html:/output -v rsam:/workdir yadabe/rsam:$TAG my_rsam_day.sh
-    docker run --rm -v html:/output -v rsam:/workdir yadabe/rsam:$TAG my_rsam_plot_day.csh
-    docker run --rm -v html:/output -v rsam:/workdir yadabe/rsam:$TAG ascii_daily.sh
+    docker run --rm -v html:/output -v rsam:/workdir yadabe/rsam:$TAG my_rsam_plot.sh
+#    docker run --rm -v html:/output -v rsam:/workdir yadabe/rsam:$TAG my_rsam_day.sh
+#    docker run --rm -v html:/output -v rsam:/workdir yadabe/rsam:$TAG my_rsam_plot_day.sh
+#    docker run --rm -v html:/output -v rsam:/workdir yadabe/rsam:$TAG ascii_daily.sh
 fi
 
 

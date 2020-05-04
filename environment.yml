@@ -6,3 +6,4 @@ dependencies:
     - numpy=1.18.1
     - matplotlib=3.2.1-0
     - obspy=1.2.1
+    - libiconv=1.15

@@ -1,9 +1,9 @@
-#!/bin/csh
-#my_rsam_plot.csh
+#!/bin/bash
+#my_rsam_plot.sh
 
-set date = `date -u +%Y%m%d`
-set monthdate = `date -u -d '1 month ago' +%Y%m%d`
-set weekdate = `date -u -d '1 week ago' +%Y%m%d`
+date=`date -u +%Y%m%d`
+monthdate=`date -u -d '1 month ago' +%Y%m%d`
+weekdate=`date -u -d '1 week ago' +%Y%m%d`
 
 mkdir -p ./workdir/my_rsam
 #WIZ.10-HHZ.NZ

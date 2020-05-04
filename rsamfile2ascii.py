@@ -13,7 +13,7 @@ else:
   rsamout = sys.argv[2]
 
 if not os.path.isfile(rsamfile):
-  print "rsamfile %s not found" % rsamfile
+  print ("rsamfile %s not found" % rsamfile)
   sys.exit
 
 #read input data file
