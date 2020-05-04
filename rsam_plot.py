@@ -15,7 +15,6 @@ from obspy.core import read, Trace, Stream
 import sys
 import os
 import numpy as np
-import scipy as sp
 import datetime
 
 # start here
@@ -81,7 +80,7 @@ end = date2num(tr.stats.endtime.datetime)
 
 # time values
 #t = np.arange(start, end, tr.stats.delta/86400)
-t = sp.linspace(start, end, tr.stats.npts)
+t = np.linspace(start, end, tr.stats.npts)
 
 # plot
 #date and time

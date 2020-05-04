@@ -15,7 +15,6 @@ import sys
 import os
 import numpy as np
 from matplotlib.dates import YearLocator, MonthLocator, DayLocator, DateFormatter
-import scipy as sp
 
 # start here
 if (len(sys.argv) < 7) | (len(sys.argv) > 9):
@@ -80,7 +79,7 @@ start = date2num(tr.stats.starttime.datetime)  # as decimal years
 end = date2num(tr.stats.endtime.datetime)
 
 # time values
-t = sp.linspace(start, end, tr.stats.npts)
+t = np.linspace(start, end, tr.stats.npts)
 
 # plot
 #date and time

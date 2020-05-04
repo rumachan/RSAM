@@ -14,11 +14,10 @@ import obspy
 from obspy.core import read, Trace, Stream, UTCDateTime
 from obspy.clients.fdsn import Client
 import datetime as dt
-import urllib2
 
 #GeoNet's FDSN web servers
 arc_client = 'http://service.geonet.org.nz'
-nrt_client = 'http://beta-service-nrt.geonet.org.nz'
+nrt_client = 'http://service-nrt.geonet.org.nz'
 
 #input arguments
 if (len(sys.argv) < 7) | (len(sys.argv) > 9):
@@ -58,16 +57,15 @@ if net == 'NZ':
     start = UTCDateTime(dd)
     end = start + 86400
     try:
-    	c = Client(base_url=nrt_client)
+        c = Client(base_url=nrt_client)
         st = c.get_waveforms(net,site,loc,cmp,start,end,attach_response=True)
-    #except obspy.io.mseed.ObsPyMSEEDFilesizeTooSmallError:
-    except: 
+    except:
         try:
-    		c = Client(base_url=arc_client)
-        	st = c.get_waveforms(net,site,loc,cmp,start,end,attach_response=True)
-    	except:	
-		sys.stderr.write("No data found for %s\n"%('.'.join((net, site, loc, cmp))))
-		sys.exit(0)
+            c = Client(base_url=arc_client)
+            st = c.get_waveforms(net,site,loc,cmp,start,end,attach_response=True)
+        except:
+            sys.stderr.write("No data found for %s\n"%('.'.join((net, site, loc, cmp))))
+            sys.exit(0)
 elif net == 'IU':
     # For IU use IRIS FDSNws
     c = Client('IRIS')

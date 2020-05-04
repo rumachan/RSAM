@@ -71,7 +71,7 @@ for j in range(int(dd.strftime("%j")) + 1):
         data.append(tr.data.mean())  # mean value for the day
     else:
         # file does not exist, assign a value of -1 as day value
-        print "Can't find file %s" % rsamfile
+        print ("Can't find file %s" % rsamfile)
         data.append(-1)
 
 if os.path.isfile(yrsamfile):

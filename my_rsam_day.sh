@@ -32,9 +32,6 @@ while [ $# -gt 0 ]
 echo processing date: $yesterday
 
 
-#DRZ.10-EHZ.NZ
-rsam_day.py DRZ.10-EHZ.NZ ${WORKDIR} $yesterday ${WORKDIR} bp 1 4
-
 #MAVZ.10-HHZ.NZ
 rsam_day.py MAVZ.10-HHZ.NZ ${WORKDIR} $yesterday ${WORKDIR} bp 1 4
 
