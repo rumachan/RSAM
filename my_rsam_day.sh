@@ -14,7 +14,7 @@ EOF
 
 
 yesterday=`date -u -d 'yesterday' +%Y%m%d`
-WORKDIR=./workdir
+WORKDIR=/workdir
 
 # Processing command line options
 while [ $# -gt 0 ]
